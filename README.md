@@ -10,10 +10,6 @@ THE API for MovieRama, a movie review application.
     - [Build the Project](#build-the-project)
     - [Run the Application](#run-the-application)
 - [API Endpoints](#api-endpoints)
-- [Configuration](#configuration)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Prerequisites
 
