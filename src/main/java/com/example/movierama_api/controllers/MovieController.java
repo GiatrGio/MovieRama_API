@@ -6,6 +6,8 @@ import com.example.movierama_api.models.Movie;
 import com.example.movierama_api.models.User;
 import com.example.movierama_api.services.MovieService;
 import com.example.movierama_api.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/movies")
 public class MovieController {
+
+    private static final Logger logger = LoggerFactory.getLogger(MovieController.class);
 
     private final MovieService movieService;
     private final UserService userService;
@@ -48,6 +52,7 @@ public class MovieController {
     @PostMapping
     public ResponseEntity<String> createMovie(@RequestBody CreateMovieDTO createMovieDTO)
     {
+        logger.info("Received a request to create a movie with title: {}", createMovieDTO.getTitle());
         User user = userService.getUserByUserId(createMovieDTO.getUserId());
 
         if (Objects.isNull(user)) {
@@ -58,9 +63,11 @@ public class MovieController {
         Movie newMovieObject = movieService.createMovie(movie);
 
         if (Objects.nonNull(newMovieObject)) {
+            logger.info("New movie created successfully. Movie ID: {}", newMovieObject.getMovieId());
             return ResponseEntity.status(HttpStatus.CREATED).body("New movie created successfully");
         }
         else {
+            logger.error("Error while creating the new movie.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error while creating the new movie.");
         }
     }
